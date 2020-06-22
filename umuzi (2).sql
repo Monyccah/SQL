@@ -70,6 +70,24 @@ INSERT INTO "products" ("productid", "productname", "description", "buyprice") V
 (2,	'Classic Car',	'Turnable front wheels, steering function',	550.75),
 (3,	'Sports car',	'Turnable front wheels, steering function',	700.60);
 
+CREATE TABLE "public"."orders" (
+    "orderid" integer DEFAULT nextval('orders_orderid_seq') NOT NULL,
+    "productid" integer NOT NULL,
+    "paymentid" integer NOT NULL,
+    "fulfilledbyemployeeid" integer NOT NULL,
+    "daterequired" date,
+    "dateshipped" character varying,
+    "status" character varying(20),
+    CONSTRAINT "orders_pkey" PRIMARY KEY ("orderid"),
+    CONSTRAINT "orders_productid_fkey" FOREIGN KEY (productid) REFERENCES products(productid) NOT DEFERRABLE
+) WITH (oids = false);
+
+INSERT INTO "orders" ("orderid", "productid", "paymentid", "fulfilledbyemployeeid", "daterequired", "dateshipped", "status") VALUES
+(1,	1,	1,	2,	'2018-05-09',	'null',	'Not shipped'),
+(2,	1,	2,	2,	'2018-04-09',	'03-09-2018',	'Shipped'),
+(3,	3,	3,	3,	'2018-06-09',	'null',	'Not shipped');
+
+
 DROP SEQUENCE IF EXISTS payments_paymentid_seq;
 CREATE SEQUENCE payments_paymentid_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 
